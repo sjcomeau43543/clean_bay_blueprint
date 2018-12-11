@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Plastic Pollution in Port Phillip Bay</title>
+
+    <script type="text/javascript"
+	    src="https://public.tableau.com/javascripts/api/tableau-2.min.js"></script>
+    <link rel="stylesheet" href="css/index.css">
+        
+    <script type="text/javascript">
+        var viz;
+        
+        // the urls to the visualisations
+        var dict = {
+            'beach_none':'https://public.tableau.com/views/BeachLitterAuditStory/BeachStory?:embed=y&:display_count=yes&publish=yes',
+            'street_none':'https://public.tableau.com/views/StreetLitterAuditStory/StreetStory?:embed=y&:display_count=yes&publish=yes',
+            'river_none':'https://public.tableau.com/views/RiverLitterAuditStory/RiverStory?:embed=y&:display_count=yes&publish=yes',
+            
+            'beach_hotel':'https://public.tableau.com/views/Beach_Hotel/Sheet1?:embed=y&:display_count=yes&publish=yes',
+            'beach_market':'https://public.tableau.com/views/Beach_Market/Sheet1?:embed=y&:display_count=yes&publish=yes',
+            'beach_sporting':'https://public.tableau.com/views/Beach_Sporting/Sheet1?:embed=y&:display_count=yes&publish=yes',
+            'beach_wastewater':'https://public.tableau.com/views/Beach_Wastewater/Sheet1?:embed=y&:display_count=yes&publish=yes',
+            'beach_wind':'https://public.tableau.com/views/Beach_Wind/Story1?:embed=y&:display_count=yes&publish=yes',
+            'beach_rainfall':'https://public.tableau.com/views/Beach_Rainfall/Story1?:embed=y&:display_count=yes&publish=yes',
+            'beach_sunlight':'https://public.tableau.com/views/Beach_Sunlight/Story1?:embed=y&:display_count=yes&publish=yes',
+            'beach_temperature':'https://public.tableau.com/views/Beach_Temperature/Story1?:embed=y&:display_count=yes&publish=yes',
+            
+            
+            'street_hotel':'https://public.tableau.com/views/Street_Hotel/Sheet1?:embed=y&:display_count=yes&publish=yes',
+            'street_market':'https://public.tableau.com/views/Street_Market/Sheet1?:embed=y&:display_count=yes&publish=yes',
+            'street_sporting':'https://public.tableau.com/views/Street_Sporting/Sheet1?:embed=y&:display_count=yes&publish=yes',
+            'street_wastewater':'https://public.tableau.com/views/Street_Wastewater/Sheet1?:embed=y&:display_count=yes&publish=yes',
+            'street_wind':'https://public.tableau.com/views/Street_Wind/Story1?:embed=y&:display_count=yes&publish=yes',
+            'street_rainfall':'https://public.tableau.com/views/Street_Rainfall/Story1?:embed=y&:display_count=yes&publish=yes',
+            'street_sunlight':'https://public.tableau.com/views/Street_Sunlight/Story1?:embed=y&:display_count=yes&publish=yes',
+            'street_temperature':'https://public.tableau.com/views/Street_Temperature/Story1?:embed=y&:display_count=yes&publish=yes',
+            
+            
+            'river_hotel':'https://public.tableau.com/views/River_Hotel/Sheet1?:embed=y&:display_count=yes&publish=yes',
+            'river_market':'https://public.tableau.com/views/River_Market/Sheet1?:embed=y&:display_count=yes&publish=yes',
+            'river_sporting':'https://public.tableau.com/views/River_Sporting/Sheet1?:embed=y&:display_count=yes&publish=yes',
+            'river_wastewater':'https://public.tableau.com/views/River_Wastewater/Sheet1?:embed=y&:display_count=yes&publish=yes',
+            'river_rainfall':'https://public.tableau.com/views/River_Rainfall/Story1?:embed=y&:display_count=yes&publish=yes',
+            'river_wind':'https://public.tableau.com/views/River_Wind/Story1?:embed=y&:display_count=yes&publish=yes',
+            'river_rainfall':'https://public.tableau.com/views/River_Rainfall/Story1?:embed=y&:display_count=yes&publish=yes',
+            'river_sunlight':'https://public.tableau.com/views/River_Sunlight/Story1?:embed=y&:display_count=yes&publish=yes',
+            'river_temperature':'https://public.tableau.com/views/River_Temperature/Story1?:embed=y&:display_count=yes&publish=yes',
+            
+        
+        };
+        
+        var description_dict = {
+            'street':'Streets can be a major source of plastic pollution entering the bay if street litter is not managed properly. In the street audits, we noticed the main items of litter are cigarette butts, plastic pieces, and food packaging. These items are most commonly found in front of businesses and public buildings, but are still widely prevalent in high traffic areas. During our street litter audits we noticed there were bins just steps away from each of these street audit sites, none of which were overflowing. One site that was noteworthy is the industrial site our team audited. There was a large amount of polystyrene beads found in the grass area. We are predicting this was due to styrofoam packaging. Many other factors can influence pollution levels such as when the weather gets warmer, more people go outside which creates a higher potential for litter. Of all the pollutants collected, over 75% was plastic which proves the severity of the problem when dealing with litter. ',
+            
+            'beach':'Using the beach audit data that has been collected to date at nine beaches around Port Phillip Bay, it is possible to make some conclusions about what factors may contribute to plastic pollution levels on beaches. It is clear that in the lower beach zones, the levels of plastic pieces found are generally representative of the prevailing tide conditions. The plastic items that are found in the upper and middle sections are generally representative of the streets or are dropped by beachgoers. Tides can also influence what zone on the beach the plastic litter is found. For example, at St. Kilda West Beach the majority of plastic pollution is found in the widest part of the beach due to tidal factors in the area. Most beach litter audit data reflects the amount of plastic pollutants that are already in the bay. Overall we found that plastic pieces make up 84.1% of the audits which shows that plastic pollution from the bay is getting re-deposited onto land sites because of the large quantity of it.',
+            
+            'river':'The Yarra and Maribyrnong rivers are one of the major sources of plastic pollution into Port Phillip Bay. In the rivers, the main plastic pollutants collected during river litter audits were hard plastic pieces and polystyrene beads. There were more plastic pollutants are found in the Yarra River than in the Maribyrnong River. We found that wind, rain, and sunlight levels all correlate to fluctuations in plastic pollution levels in the rivers. We believe that wind and rain are transporters of plastic pollutants from stormwater drains and streets leading to the Yarra River that contain business, industrial, and public sites. Sunlight potentially correlates to an increase microplastic pollution levels in the rivers due to the increase in UV light breaking down large plastic pollutants and therefore causing the manta net to pick up a larger quantity of microplastics. The potential contributors to large plastic pollutants are sporting grounds and hotels, since they are very closely located along the Yarra River near the audit site. However, it is hard to conclude that the plastic pollution levels are directly caused by the sites along the river without having street litter audits along the river near these sites.'
+        
+        
+        };
+        
+        // the current pollution dataset and supplementary type
+        var current_pollution = '';
+        var current_supplementary = '';
+        
+        function initViz(pollutiontype, supplementarytype) {   
+            // update currents 
+            current_pollution = pollutiontype;
+            current_supplementary = supplementarytype;
+        
+            // get the right url for the pollution and supplementary visualisation
+            console.log(pollutiontype + '_' + supplementarytype);
+            var url = dict[pollutiontype + '_' + supplementarytype];
+            console.log(url);
+            
+            // get the container div
+            var containerDiv = document.getElementById("vizContainer");
+            var options = {
+                hideTabs: true,
+            };
+
+            // embedding the vis
+            viz = new tableau.Viz(containerDiv, url, options);
+            
+            // update description bar
+            updateDescription(pollutiontype, supplementarytype);
+        }
+        
+        function addSupplementary(supplementarytype){
+            replaceViz(current_pollution, supplementarytype);
+        }
+    
+        function replaceViz(pollutiontype, supplementarytype) {
+            if (! (current_pollution === pollutiontype &&
+                current_supplementary === supplementarytype)){
+                // update currents 
+                current_pollution = pollutiontype;
+                current_supplementary = supplementarytype;
+                
+                // get the right url for the pollution and supplementary visualisation
+                var url = dict[pollutiontype + '_' + supplementarytype];
+                console.log(url);
+            
+                // get and dispose the current vis
+                var containerDiv = document.getElementById("vizContainer");
+                viz.dispose();
+                
+                // set the options for the new vis and create it
+                var options = {
+                    hideTabs: true,
+                };
+
+                viz = new tableau.Viz(containerDiv, url, options);
+                
+                // update description bar
+                updateDescription(pollutiontype, supplementarytype);
+            }
+            
+        }
+        
+        function drop(dropdownid) {     
+            var element = document.getElementById(dropdownid);
+            if (element.style.display === "block"){
+                element.style.display = "none";
+            } else {
+                element.style.display = "block";
+            }
+        
+            // close everything else 
+            var dropdowns = document.getElementsByClassName("dropdown-content");
+            var i;
+            for (i = 0; i < dropdowns.length; i++) {
+                var openDropdown = dropdowns[i];
+                if (openDropdown.style.display === "block" && openDropdown.id != dropdownid) {
+                    openDropdown.style.display = "none";
+                }
+            }
+            
+            
+        }
+        
+        window.onclick = function(event) {
+            if (!event.target.matches('.dropbtn')) {
+                var dropdowns = document.getElementsByClassName("dropdown-content");
+                var i;
+                for (i = 0; i < dropdowns.length; i++) {
+                    var openDropdown = dropdowns[i];
+                    if (openDropdown.style.display === "block") {
+                        openDropdown.style.display = "none";
+                    }
+                }
+            }
+        }
+        
+        function updateDescription(pollutiontype, supplementarytype){
+            element = document.getElementById('descriptionBox');
+            element.innerHTML = description_dict[pollutiontype];
+        
+        
+        }
+        
+    </script>
+</head>
+<body onload="initViz('river', 'none');">
+
+    <div class="row">
+
+        <div class="column" id="sidebarColumn">
+            <h3 style="margin-top:100px"> Datasets </h3>
+            <div class="row">
+                <div class="column">
+                    <div class="dropdown">
+                        <button onclick="drop('pollution_dropdown')" class="dropbtn" id="pollution_dropbtn">Pollution</button>
+                        <div class="dropdown-content" id="pollution_dropdown">
+                            <div class="menuitem" onclick="replaceViz('street', 'none')">Street</div>
+                            <div class="menuitem" onclick="replaceViz('beach', 'none')">Beach</div>
+                            <div class="menuitem" onclick="replaceViz('river', 'none')">River</div>
+                        </div>
+                    </div>
+                </div>  <!--end pollution column-->
+                
+                <div class="column">
+                    <div class="row">
+                        <div class="dropdown">
+                            <button onclick="drop('human_dropdown')" class="dropbtn" id="human_dropbtn">Human Factors</button>
+                            <div class="dropdown-content" id="human_dropdown">
+                                <div class="menuitem" onclick="addSupplementary('hotel')">Hotels</div>
+                                <div class="menuitem" onclick="addSupplementary('market')">Markets</div>
+                                <div class="menuitem" onclick="addSupplementary('sporting')">Sporting Events</div>
+                                <div class="menuitem" onclick="addSupplementary('wastewater')">Wastewater Discharge</div>
+                            </div>
+                        </div>
+                    </div>  <!--end row-->
+                    
+                    <div class="row">
+                        <div class="dropdown">
+                            <button onclick="drop('environmental_dropdown')" class="dropbtn" id="environmental_dropbtn">Environmental Factors</button>
+                            <div class="dropdown-content" id="environmental_dropdown">
+                                <div class="menuitem" onclick="addSupplementary('wind')">Wind</div>
+                                <div class="menuitem" onclick="addSupplementary('rainfall')">Rainfall</div>
+                                <div class="menuitem" onclick="addSupplementary('sunlight')">Sunlight</div>
+                                <div class="menuitem" onclick="addSupplementary('temperature')">Temperature</div>
+                            </div>
+                        </div>
+                    </div>  <!--end row-->
+                    
+                    <div class="row">
+                        <div class="dropdown">
+                            <button onclick="drop('other_dropdown')" class="dropbtn" id="other_dropbtn">Other</button>
+                            <div class="dropdown-content" id="other_dropdown">
+                                <div class="menuitem" onclick="addSupplementary('none')">Remove Supplementary Data</div>
+                            </div>
+                        </div>
+                    </div>  <!--end row-->
+                </div>  <!--end supplementary column-->
+            </div>
+            <div class="row">
+                <p> <br> <br> <br> </p>
+            </div>
+            <div class="row">
+                <p id="descriptionBox" style="margin-top:75px"></p>
+            
+            </div>  <!--end explanation row-->
+        </div>
+
+        <div class="column" id="visColumn">
+            <h1> Plastic Pollution in Port Phillip Bay </h1>
+            <div id="vizContainer" style="width:1000px; height:800px;"></div>
+            
+        </div>
+    
+    </div> <!--end row-->
+</body>
+
+</html>
